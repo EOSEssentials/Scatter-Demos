@@ -1,0 +1,17 @@
+div, figure, section, nav, article, input, textarea, a, h1, h2, h3, p {
+  padding:0; margin:0; box-sizing: border-box;
+}
+
+body {
+  padding:0;
+  margin:0;
+  overflow-y:scroll;
+  word-break: break-word;
+  font-family: 'Raleway', sans-serif;
+}
+
+a {
+  display:inherit;
+  text-decoration: inherit;
+  color:inherit;
+}
