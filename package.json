@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv-webpack": "^1.5.4",
-    "eosjs": "^6.1.4",
+    "eosjs": "^6.1.5",
     "eosjs-ecc": "^2.0.1",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",

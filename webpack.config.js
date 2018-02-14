@@ -32,9 +32,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            vue: vueAlias,
-            'extension-streams': 'extension-streams/dist/index.js',
-            'aes-oop': 'aes-oop/dist/AES.js',
+            vue: vueAlias
         },
         modules: [ path.join(__dirname, "node_modules") ]
     },

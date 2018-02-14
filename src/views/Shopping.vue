@@ -12,7 +12,7 @@
 
         <section class="panel">
 
-            <section class="box">
+            <section class="box" v-if="!identity">
                 <figure class="header">
                     <h1>
                         You don’t have an account here yet!
@@ -25,6 +25,25 @@
                     resorted to trusting Facebook to keep us safe.
                     <br><br>
                     <b>Let’s give account registration the middle finger.</b>
+                </p>
+
+                <button v-on:click="requestIdentity">Provide Identity</button>
+            </section>
+
+            <section class="box" v-else>
+                <figure class="header">
+                    <h1>
+                        You have linked your Identity with this application!
+                    </h1>
+                </figure>
+                <p>
+                    There is now a permission in place which allows this application to automatically retrieve your up to date
+                    Identity each time you visit it. This means you can update your Identity at the source ( Scatter ) and have it updated
+                    to each and every application it has permissions for once you re-visit it without having to deal with updating information on multiple
+                    applications.
+                    <br><br>
+                    Imagine what would happen if you moved houses and had to update your shipping information on every shopping
+                    website you've ever used.
                 </p>
 
                 <button v-on:click="requestIdentity">Provide Identity</button>
@@ -52,7 +71,9 @@
                         request it and you give it permission to access it.
                     </b>
                 </p>
-                <p class="dev-link">I'm a developer, show me how this is done!</p>
+                <a href="https://github.com/EOSEssentials/Scatter#requesting-an-identity" target="_blank">
+                    <p class="dev-link">I'm a developer, show me how this is done!</p>
+                </a>
             </section>
         </section>
 
@@ -60,7 +81,7 @@
 
         <section class="panel">
 
-            <section class="box unpadded">
+            <section class="box unpadded" v-if="!bought">
                 <figure class="image">
 
                 </figure>
@@ -85,6 +106,29 @@
                 </section>
             </section>
 
+            <section class="box" v-else>
+                <figure class="header">
+                    <h1>
+                        You've purchased an Item.
+                    </h1>
+                </figure>
+                <p>
+                    Wasn't that simple? You've not only just paid for the item using <b>10 EOS</b>, but you've also supplied
+                    some shipping information all in one click.
+                    <br><br>
+                    <b>Let's look at some of the information:</b>
+                </p>
+                <br>
+                <p>
+
+                    <u>Transaction ID</u>: <b>{{transaction.transaction_id}}</b><br><br>
+                    <u>Personal Information</u>: <b>{{getPersonalInfo(transaction.returnedFields)}}</b><br><br>
+                    <u>Shipping Information</u>: <b>{{getShippingInfo(transaction.returnedFields)}}</b><br><br>
+                </p>
+
+                <button v-if="!!identity" v-on:click="purchaseItem">Buy Again!</button>
+            </section>
+
 
             <section class="info">
                 <h1>Buying an item that needs to be shipped</h1>
@@ -102,7 +146,9 @@
                     We’re simply going to bundle the transfering of funds and personal information into one easy to approve action
                     which is completely transparent to the only person that you actually care about in this exchange. <b>You.</b>
                 </p>
-                <p class="dev-link">I'm a developer, show me how this is done!</p>
+                <a href="https://github.com/EOSEssentials/Scatter#requesting-a-signature" target="_blank">
+                    <p class="dev-link">I'm a developer, show me how this is done!</p>
+                </a>
             </section>
         </section>
 
@@ -122,7 +168,8 @@
 
     export default {
         data(){ return {
-
+            bought:false,
+            transaction:{}
         }},
         computed: {
             ...mapState([
@@ -140,13 +187,19 @@
                 });
             },
             purchaseItem(){
-                console.log(this.identity);
-                const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address','phone', 'zipcode', 'city'];
+                const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
                 this.eos.transfer(this.identity.account.name, 'inita', 10, '', {requiredFields}).then(transaction => {
-
+                    this.bought = true;
+                    this.transaction = transaction;
                 }).catch(e => {
                     console.log('error', e)
                 })
+            },
+            getPersonalInfo(fields){
+                return `${fields.firstname} ${fields.lastname}`
+            },
+            getShippingInfo(fields){
+                return `${fields.address}, ${fields.city}, ${fields.country.name}`
             },
             ...mapActions([
                 Actions.SET_IDENTITY

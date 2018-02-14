@@ -90,14 +90,13 @@
                     </h1></figure>
                     <p>
                         <span>
-                            This account was created on our network, staked for use, and has a significant amount of
-                            EOS tokens.
+                            This account was created on our network, staked for use, and has enough EOS tokens to do all of these demos many times over.
                         </span>
                         <br><br>
 
                         <b>Account Name: </b> <span>{{accountName}}</span>
                         <br><br>
-                        <b>Private Key: </b> <span>{{privateKey}}</span>
+                        <b>Private Key: </b> <textarea spellcheck="false" class="private-key" v-model="privateKey"></textarea>
                         <br><br>
                         <b>Public Key: </b> <span>{{publicKey}}</span>
                     </p>
@@ -150,9 +149,9 @@
                 </p>
                 <br>
                 <section class="bordered">
-                    <button disabled style="width:150px; margin-top:0;">Add Network</button>
+                    <button v-on:click="addNetwork" style="width:150px; margin-top:0;">Add Network</button>
                     <br>
-                    <span>This feature is not yet enabled.</span>
+                    <span>Nothing will happen if it already exists.</span>
                 </section>
                 <br><br><br>
                 <p>
@@ -237,13 +236,9 @@
                     const publicKey = ecc.privateToPublic(privateKey);
                     const accountName = this.randomAccountName();
 
-                    console.log('account', accountName);
-                    console.log(publicKey)
-
                     const stakerName = process.env.ACCOUNT_NAME;
                     const keyProvider = process.env.PRIVATE_KEY;
                     const httpEndpoint = `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`;
-                    console.log(httpEndpoint);
 
                     let eos = Eos.Localnet({httpEndpoint, keyProvider});
 
@@ -255,19 +250,22 @@
                         recovery: stakerName,
                         deposit: `1 EOS`
                     }).then(account => {
-                        console.log('account', account);
-                        eos.transfer(accountName, stakerName, 10, '').then(trx => {
-                            this.privateKey = privateKey;
-                            this.publicKey = publicKey;
-                            this.accountName = accountName;
-                            this.generatingAccount = false;
-                        });
+                        setTimeout(() => {
+                            eos.transfer(stakerName, accountName, 1000000, '').then(trx => {
+                                this.privateKey = privateKey;
+                                this.publicKey = publicKey;
+                                this.accountName = accountName;
+                                this.generatingAccount = false;
+                            });
+                        }, 500);
                     }).catch(e => {
-                        console.log("Error", e)
-                        // TODO: Recurse, probably existing name or invalid character.
-                        this.generatingAccount = false;
+                        // Recursing, probably existing name or invalid character.
+                        this.createAccount();
                     })
                 })
+            },
+            addNetwork(){
+                this.scatter.suggestNetwork();
             },
             ...mapActions([
 
@@ -277,5 +275,11 @@
 </script>
 
 <style lang="scss">
-
+    .private-key {
+        width:100%;
+        height:40px;
+        outline:0;
+        border:0;
+        resize:none;
+    }
 </style>
