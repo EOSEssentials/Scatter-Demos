@@ -183,14 +183,14 @@
                     if(!id) return false;
                     this.scatter.useIdentity(id.hash);
                     this[Actions.SET_IDENTITY](id);
-                })
+                }).catch(e => console.log(e))
             },
             purchaseItem(){
                 const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
                 this.eos.transfer(this.identity.account.name, 'inita', 10, '', {requiredFields}).then(transaction => {
                     this.bought = true;
                     this.transaction = transaction;
-                })
+                }).catch(e => console.log(e))
             },
             getPersonalInfo(fields){
                 return `${fields.firstname} ${fields.lastname}`
