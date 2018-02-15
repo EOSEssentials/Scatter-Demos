@@ -53,12 +53,12 @@
                     <br><br>
                     You will see a button there that says <b>Load unpacked extension...</b>
                     <br><br>
-                    <!--<img src="https://github.com/nsjames/Scatter/raw/master/chrome_ext.jpg" />-->
+                    <img src="https://github.com/nsjames/Scatter/raw/master/chrome_ext.jpg" />
                     <br><br>
                     <br><br>
                     Now navigate to the folder you created before, and click ok.
                     <br><br>
-                    <!--<img src="https://github.com/nsjames/Scatter/raw/master/chrome_ext2.jpg" />-->
+                    <img src="https://github.com/nsjames/Scatter/raw/master/chrome_ext2.jpg" />
                     <br><br>
                 </p>
                 <section class="bordered">
