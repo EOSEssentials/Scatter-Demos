@@ -231,7 +231,12 @@
                 for(let i=0; i<size; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
                 return text;
             },
-            createAccount(){
+            createAccount(tries = 0){
+                if(tries > 5) {
+                    this.generatingAccount = false;
+                    alert("Error contacting EOS node");
+                    return false;
+                }
                 ecc.randomKey().then(privateKey => {
                     const publicKey = ecc.privateToPublic(privateKey);
                     const accountName = this.randomAccountName();
@@ -260,7 +265,7 @@
                         }, 500);
                     }).catch(e => {
                         // Recursing, probably existing name or invalid character.
-                        this.createAccount();
+                        this.createAccount(tries+1);
                     })
                 })
             },

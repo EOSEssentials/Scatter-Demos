@@ -184,7 +184,10 @@
                     if(!id) return false;
                     this.scatter.useIdentity(id.hash);
                     this[Actions.SET_IDENTITY](id);
-                });
+                }).catch(e => {
+                    alert("Is scatter unlocked?")
+                    console.log('error', e)
+                })
             },
             purchaseItem(){
                 const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
@@ -192,6 +195,7 @@
                     this.bought = true;
                     this.transaction = transaction;
                 }).catch(e => {
+                    alert("Is scatter unlocked?")
                     console.log('error', e)
                 })
             },
