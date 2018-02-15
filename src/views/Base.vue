@@ -4,11 +4,17 @@
         <figure class="back-left"></figure>
         <figure class="back-right"></figure>
 
-        <main>
+        <main v-if="!mobileMode">
             <sidebar></sidebar>
             <section class="body">
                 <router-view></router-view>
             </section>
+        </main>
+
+        <main v-else class="mobile">
+            <h1>Sorry!</h1>
+            There is no point to display this page in mobile mode
+            since Chrome on mobile does not support extensions. Please view from your desktop/laptop.
         </main>
         <!--<alert></alert>-->
 
@@ -22,7 +28,7 @@
 
     export default {
         data(){ return {
-
+            mobileMode:window.innerWidth <= 960
         }},
         computed: {
             ...mapState([
@@ -40,6 +46,12 @@
 <style lang="scss">
     .view-base {
         position: relative;
+
+        .mobile {
+            background:#e43535;
+            padding:20px;
+            color:#fff;
+        }
 
         .back-left, .back-right {
             position:fixed;
