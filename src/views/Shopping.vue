@@ -4,7 +4,8 @@
         <h1>Getting Started with EOS and Scatter</h1>
         <hr>
         <p>
-            In order to play around with these demos you're going to need a couple things first, like Scatter and an EOS account on our network.
+            Shopping applications are abundant throughout our modern world. We all love to buy things, but hate to use them.
+            Let’s look at just some of the problems that they cause users on a daily basis.
         </p>
 
 
@@ -45,8 +46,6 @@
                     Imagine what would happen if you moved houses and had to update your shipping information on every shopping
                     website you've ever used.
                 </p>
-
-                <button v-on:click="requestIdentity">Provide Identity</button>
             </section>
 
 
