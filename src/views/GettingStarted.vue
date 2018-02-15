@@ -175,8 +175,8 @@
                 </p>
 
                 <ul>
-                    <li><b>Host:</b> <u>testnet1.eos.io</u></li>
-                    <li><b>Port:</b> <u>80</u></li>
+                    <li><b>Host:</b> <u>{{networkHost}}</u></li>
+                    <li><b>Port:</b> <u>{{networkPort}}</u></li>
                 </ul>
                 <hr>
 
@@ -207,6 +207,8 @@
 
     export default {
         data(){ return {
+            networkHost:process.env.NETWORK_HOST,
+            networkPort:process.env.NETWORK_PORT,
             generatingAccount:false,
 
             privateKey:'',
