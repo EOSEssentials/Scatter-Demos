@@ -28,7 +28,7 @@
 
     export default {
         data(){ return {
-            mobileMode:window.innerWidth <= 960
+            mobileMode:window.innerWidth <= 760
         }},
         computed: {
             ...mapState([
