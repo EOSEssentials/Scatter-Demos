@@ -78,8 +78,9 @@
                 <p>
                     <b>
                         Right now there is an issue with storing strings inside of a contract on the version of our EOS node.
-                        We're using the account name to store scores instead at the moment. This will
-                        be fixed the second we're able.
+                        We're using the first 12 characters of the identity name to store scores instead at the moment. If the first 12 characters
+                        fails the test making it into an account name, the actual account name will be used instead.
+                        This will be fixed the second we're able.
                     </b>
                 </p>
                 <hr>
@@ -127,6 +128,7 @@
                     this.scatter.useIdentity(id.hash);
                     this[Actions.SET_IDENTITY](id);
                     SpaceInvaders.load(this.gameOver)
+
                 }).catch(e => console.log(e))
             },
             gameOver(score){
@@ -136,8 +138,14 @@
                         scope: ['invaders', this.identity.account.name],
                         authorization: [`${this.identity.account.name}@active`]
                     };
+
+                    let idNameToAccName = this.identity.name.substr(0, 12).toLowerCase();
+                    if(!/(^[a-z1-5.]{1,11}[a-z1-5]$)|(^[a-z1-5.]{12}[a-j1-5]$)/g.test(idNameToAccName)){
+                        idNameToAccName = this.identity.account.name;
+                    }
+
                     this.eos.contract('invaders').then(contract => {
-                        contract.score(this.identity.account.name, score, this.identity.account.name, options)
+                        contract.score(idNameToAccName, score, this.identity.account.name, options)
                     });
                 }
             },
