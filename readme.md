@@ -33,3 +33,10 @@ running for this repository. You will also need to upload the contracts in the `
 - Run the `npm i -g http-server` command to install `http-server` globally.
 - Go into the `build` directory.
 - Run `http-server`
+
+#### The .env File
+
+- PRIVATE_KEY: The private key of a faucet account.
+- ACCOUNT_NAME: The account name of the faucet account linked to the private key.
+- NETWORK_HOST: The URI of the local EOS node you are running.
+- NETWORK_PORT: The port of the local EOS node you are running.
