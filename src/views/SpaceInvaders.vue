@@ -75,6 +75,14 @@
             <section class="info">
                 <h1>High Scores.</h1>
                 <br>
+                <p>
+                    <b>
+                        Right now there is an issue with storing strings inside of a contract on the version of our EOS node.
+                        We're using the account name to store scores instead at the moment. This will
+                        be fixed the second we're able.
+                    </b>
+                </p>
+                <hr>
                 <figure v-for="highScore in highScores">
                     <b>{{highScore.score}}</b> - {{highScore.identity}}
                 </figure>
