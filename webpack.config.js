@@ -24,6 +24,8 @@ const filesToPack = [
 ];
 const entry = filesToPack.reduce((o, file) => Object.assign(o, {[replaceSuffixes(file)]: `./src/${file}`}), {});
 
+const phaserModulePath = path.join(__dirname, '/node_modules/phaser/');
+
 module.exports = {
     entry,
     output: {
@@ -38,7 +40,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel-loader', query: { presets: ['es2015', 'stage-3'] }, exclude: /node_modules/ }
+            { test: /\.js$/, loader: 'babel-loader', query: { presets: ['es2015', 'stage-3'] }, exclude: /node_modules/ },
         ],
         rules:[
             { test: /\.(sass|scss)$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) },

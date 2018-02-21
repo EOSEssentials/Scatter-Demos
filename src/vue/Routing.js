@@ -1,14 +1,17 @@
 import GettingStarted from '../views/GettingStarted.vue'
 import Shopping from '../views/Shopping.vue'
+import SpaceInvaders from '../views/SpaceInvaders.vue'
 
 export const RouteNames = {
     INDEX:'index',
     SHOPPING:'shopping',
+    SPACE_INVADERS:'spaceInvaders',
 };
 
 const RouteViews = {
     [RouteNames.INDEX]:GettingStarted,
     [RouteNames.SHOPPING]:Shopping,
+    [RouteNames.SPACE_INVADERS]:SpaceInvaders,
 };
 
 export class Routing {

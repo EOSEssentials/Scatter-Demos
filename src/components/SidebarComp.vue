@@ -11,6 +11,7 @@
 
         <router-link :to="{name:routeNames.INDEX}" class="link" :class="{}">Getting Started</router-link>
         <router-link :to="{name:routeNames.SHOPPING}" class="link">Shopping</router-link>
+        <router-link :to="{name:routeNames.SPACE_INVADERS}" class="link">Space Invaders</router-link>
     </aside>
 </template>
 
