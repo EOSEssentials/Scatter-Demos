@@ -1,0 +1,24 @@
+{
+  "types": [],
+  "structs": [{
+      "name": "score",
+      "base": "",
+      "fields": {,
+        "identity": "name",
+        "score":"uint64",
+        "signatory":"name"
+      }
+  }],
+  "actions": [{
+      "action_name": "score",
+      "type": "score"
+  }],
+  "tables": [{
+      "table_name": "scores",
+      "type": "score",
+      "index_type": "i64",
+      "key_names" : ["name"],
+      "key_types" : ["name"]
+    }
+  ]
+}
