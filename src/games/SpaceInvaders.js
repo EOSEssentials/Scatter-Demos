@@ -164,8 +164,16 @@ export function update() {
         //  Reset the player, then check for movement keys
         player.body.velocity.setTo(0, 0);
 
-        if (cursors.left.isDown) player.body.velocity.x = -(200 + (level*10));
-        else if (cursors.right.isDown) player.body.velocity.x = 200 + (level*10);
+
+        const {x, y} = player.body.position;
+        if((x < game.width - player.width || cursors.left.isDown) && (x>0 || cursors.right.isDown)){
+            if (cursors.left.isDown) player.body.velocity.x = -(200 + (level*10));
+            else if (cursors.right.isDown) player.body.velocity.x = 200 + (level*10);
+        }
+        if((y > 300 || cursors.down.isDown) && (y < 530 || cursors.up.isDown)){
+            if (cursors.up.isDown) player.body.velocity.y = -(200 + (level*10));
+            else if (cursors.down.isDown) player.body.velocity.y = 200 + (level*10);
+        }
 
         //  Firing?
         if (fireButton.isDown) fireBullet();
