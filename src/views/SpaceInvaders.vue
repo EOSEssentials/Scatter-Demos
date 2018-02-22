@@ -158,6 +158,11 @@
                     "limit": 500
                 }).then(result => {
                     this.highScores = result.rows.sort((a,b) => b.score - a.score);
+                    if(this.identity){
+                        const playerBest = this.highScores.find(x => x.identity === this.identity.name);
+                        if(playerBest) this.lastHighScore = playerBest.score;
+                    }
+
                     setTimeout(() => {
                         this.getHighScores();
                     }, 2000);
