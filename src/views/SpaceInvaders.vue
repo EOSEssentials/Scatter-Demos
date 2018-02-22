@@ -44,6 +44,15 @@
                     Because of that Scatter provides the game with the Identity name of your choosing, and an account to sign the transaction of
                     recording your high score with. Woohoo, now you're free to change accounts and keep your high score.
                 </p>
+                <br>
+                <br>
+
+                <h2><b>IMPORTANT!</b></h2>
+                <br>
+                <p>
+                    Go into your Scatter settings and turn up the settings on the Auto Lock feature or you might play for
+                    longer than it's set for and not be able to upload your score.
+                </p>
             </section>
         </section>
 
