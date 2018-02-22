@@ -136,7 +136,7 @@
                     this.lastHighScore = score;
                     const options = {
                         scope: ['invaders', this.identity.account.name],
-                        authorization: [`${this.identity.account.name}@active`]
+                        authorization: [`${this.identity.account.name}@${this.identity.account.authority}`]
                     };
 
                     let idNameToAccName = this.identity.name.substr(0, 12).toLowerCase();
