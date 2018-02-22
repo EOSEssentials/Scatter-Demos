@@ -93,8 +93,10 @@
                     </b>
                 </p>
                 <hr>
-                <figure v-for="highScore in highScores">
-                    <b>{{highScore.score}}</b> - {{highScore.identity}}
+                <figure v-for="(highScore, rank) in highScores" style="margin-bottom:5px; border-bottom:1px solid rgba(0,0,0,0.05); padding-bottom:5px;">
+                    <figure :class="{'first-place':rank === 0}">
+                        <span>#{{rank+1}}</span> <b>{{highScore.score}}</b> - {{highScore.identity}}
+                    </figure>
                 </figure>
             </section>
         </section>
@@ -185,5 +187,7 @@
 </script>
 
 <style lang="scss">
-
+    .first-place {
+        color:blue;
+    }
 </style>
