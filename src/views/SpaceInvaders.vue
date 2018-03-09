@@ -44,7 +44,7 @@
             </section>
 
 
-            <section class="info" v-if="identity">
+            <section class="info" v-if="scatter">
                 <h1>Your Identity name is your Player name.</h1>
                 <br>
                 <p>
@@ -78,7 +78,7 @@
 
         <hr>
 
-        <section class="panel" v-if="scatter&&identity">
+        <section class="panel" v-if="scatter">
 
             <section class="box">
                 <figure class="header">
