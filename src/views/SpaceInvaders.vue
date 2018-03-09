@@ -31,7 +31,7 @@
                 <p>
                     In order to save your high scores we're going to need your Identity.
                 </p>
-                
+
                 <button v-on:click="requestIdentity">Provide Identity</button>
             </section>
 
