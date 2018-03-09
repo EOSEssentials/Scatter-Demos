@@ -3,19 +3,35 @@
   "structs": [{
       "name": "score",
       "base": "",
-      "fields": {,
+      "fields": {
         "identity": "name",
         "score":"uint64",
-        "signatory":"name"
+        "signatory":"name",
+        "proprietor":"name"
+      }
+  },{
+      "name": "owner",
+      "base": "",
+      "fields": {
+        "proprietor":"name"
       }
   }],
   "actions": [{
       "action_name": "score",
       "type": "score"
+  },{
+      "action_name": "owner",
+      "type": "owner"
   }],
   "tables": [{
       "table_name": "scores",
       "type": "score",
+      "index_type": "i64",
+      "key_names" : ["name"],
+      "key_types" : ["name"]
+    },{
+      "table_name": "owners",
+      "type": "owner",
       "index_type": "i64",
       "key_names" : ["name"],
       "key_types" : ["name"]
