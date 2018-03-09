@@ -34,6 +34,30 @@
 
 
             <section class="info">
+                <h1>Updating Scatter</h1>
+                <br>
+                <p>
+                    Since Scatter is still in development you will have to manually update it. Sorry for the inconvenience.
+                    <br>
+                    <br>
+                    To check your current Scatter version go to <u><b>chrome://extensions/</b></u> and look at the number next
+                    to the <b>Scatter</b> title.
+                    If it is not <b style="font-size:13px">2.1</b> you need to update your Scatter.
+                    <br>
+                    <br>
+                    To do so first click the trash icon next to the Scatter plugin from the Chrome extensions page.
+                    Then delete you Scatter folder, and follow the installation instructions again.
+                    <br>
+                    <br>
+                    <b>
+                        Once you have version 2.1 you will no longer need to manually check your Scatter version as that version included
+                        a way to require a minimum Scatter version and notify the user in the case that it doesn't match.
+                    </b>
+
+                </p>
+
+                <hr>
+
                 <h1>Installing Scatter</h1>
                 <br>
                 <p>
@@ -122,21 +146,6 @@
                 <hr>
 
 
-                <!------------ ACCOUNT ------------>
-                <h2>Generate an EOS Account</h2>
-                <br>
-                <p>
-                    In the pursuit of making this as easy as possible, we won't make you generate any keys
-                    or set any account names. We're simply going to randomly generate both for you and then give you the private key
-                    so that you can import it into your Scatter.
-
-                    <br><br>
-
-                    Click the <b>Generate Account</b> button to left before continuing.
-                </p>
-                <hr>
-
-
 
 
                 <!------------ NETWORK ------------>
@@ -189,6 +198,21 @@
                     Take for example <u>EOSSupport</u> as a name. You wouldn't want anyone impersonating that on any network once it is claimed. They also
                     serve as your <i>username</i> on applications to give you some added security to the account name you are currently using within your Identity and
                     allowing you to switch the underlying account without changing your username.
+                </p>
+                <hr>
+
+
+                <!------------ ACCOUNT ------------>
+                <h2>Generate an EOS Account</h2>
+                <br>
+                <p>
+                    In the pursuit of making this as easy as possible, we won't make you generate any keys
+                    or set any account names. We're simply going to randomly generate both for you and then give you the private key
+                    so that you can import it into your Scatter.
+
+                    <br><br>
+
+                    Click the <b>Generate Account</b> button to left before continuing.
                 </p>
             </section>
         </section>
@@ -257,6 +281,7 @@
                         recovery: stakerName,
                         deposit: `1 EOS`
                     }).then(account => {
+                        console.log(account);
                         setTimeout(() => {
                             eos.transfer(stakerName, accountName, 1000000, '').then(trx => {
                                 this.privateKey = privateKey;

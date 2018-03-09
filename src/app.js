@@ -23,6 +23,8 @@ class App {
 
         new VueInitializer(routes, components, middleware, (router, store) => {
             document.addEventListener('scatterLoaded', () => {
+
+                window.scatter.requireVersion(2.1);
                 store.dispatch(Actions.SET_SCATTER, window.scatter);
                 window.scatter = null;
 

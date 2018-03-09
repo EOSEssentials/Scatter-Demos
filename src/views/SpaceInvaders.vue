@@ -128,6 +128,7 @@
             ])
         },
         mounted(){
+            if(this.identity) SpaceInvaders.load(this.gameOver);
             setTimeout(() => {
                 this.getHighScores();
             }, 500);
@@ -139,15 +140,18 @@
                     this.scatter.useIdentity(id.hash);
                     this[Actions.SET_IDENTITY](id);
                     SpaceInvaders.load(this.gameOver)
-
                 }).catch(e => console.log(e))
             },
             gameOver(score){
                 if(score > this.lastHighScore) {
                     this.lastHighScore = score;
+
                     const options = {
                         scope: ['invaders', this.identity.account.name],
-                        authorization: [`${this.identity.account.name}@${this.identity.account.authority}`]
+                        authorization: [
+                            `${this.identity.account.name}@${this.identity.account.authority}`,
+                            `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
+                        ]
                     };
 
                     let idNameToAccName = this.identity.name.substr(0, 12).toLowerCase();
@@ -155,8 +159,8 @@
                         idNameToAccName = this.identity.account.name;
                     }
 
-                    this.eos.contract('invaders').then(contract => {
-                        contract.score(idNameToAccName, score, this.identity.account.name, options)
+                    this.eos.contract('invaders', { keyProvider:process.env.SPACE_INVADERS_OWNER_PKEY }).then(contract => {
+                        contract.score(idNameToAccName, score, this.identity.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
                     });
                 }
             },
