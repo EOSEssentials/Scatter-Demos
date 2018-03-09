@@ -11,8 +11,18 @@
         <hr>
 
         <section class="panel">
+            <section class="box" v-if="!scatter">
+                <figure class="header">
+                    <h1>You don't seem to have Scatter!</h1>
+                </figure>
+                <p>You're going to need to download and install Scatter first before you can do anything else on this application.</p>
 
-            <section class="box" v-if="!identity">
+                <router-link :to="{name:routeNames.INDEX}" class="link" :class="{}">
+                    <button>Go To Download Scatter</button>
+                </router-link>
+            </section>
+
+            <section class="box" v-if="scatter&&!identity">
                 <figure class="header">
                     <h1>
                         Oh you want to play Space Invaders?
@@ -21,11 +31,11 @@
                 <p>
                     In order to save your high scores we're going to need your Identity.
                 </p>
-
+                
                 <button v-on:click="requestIdentity">Provide Identity</button>
             </section>
 
-            <section class="box" v-else>
+            <section class="box" v-if="scatter&&identity">
                 <figure class="header">
                     <h1>
                         Lock and load!
@@ -34,7 +44,7 @@
             </section>
 
 
-            <section class="info">
+            <section class="info" v-if="identity">
                 <h1>Your Identity name is your Player name.</h1>
                 <br>
                 <p>
@@ -68,7 +78,7 @@
 
         <hr>
 
-        <section class="panel">
+        <section class="panel" v-if="scatter&&identity">
 
             <section class="box">
                 <figure class="header">
@@ -107,7 +117,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters, mapState } from 'vuex'
+    import {mapActions, mapGetters, mapState} from 'vuex'
     import * as Actions from '../store/constants';
     import {RouteNames} from '../vue/Routing'
     import * as SpaceInvaders from '../games/SpaceInvaders'
@@ -118,7 +128,8 @@
         data(){ return {
             lastHighScore:0,
             localEos:null,
-            highScores:[]
+            highScores:[],
+            routeNames: RouteNames            
         }},
         computed: {
             ...mapState([
@@ -129,7 +140,7 @@
         },
         mounted(){
             setTimeout(() => {
-                this.getHighScores();
+                if(this.eos) this.getHighScores();
             }, 500);
         },
         methods: {
