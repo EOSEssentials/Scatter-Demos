@@ -165,7 +165,11 @@
                 }
             },
             getHighScores(){
-                this.eos.getTableRows({
+
+                const host = process.env.NETWORK_HOST;
+                const port = process.env.NETWORK_PORT;
+                const eos = Eos.Localnet({httpEndpoint:`http://${host}:${port}`});
+                eos.getTableRows({
                     "json": true,
                     "scope": 'invaders',
                     "code": 'invaders',
