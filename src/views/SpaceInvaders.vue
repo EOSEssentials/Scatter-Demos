@@ -140,7 +140,7 @@
         },
         mounted(){
             setTimeout(() => {
-                if(this.eos) this.getHighScores();
+                this.getHighScores();
             }, 500);
         },
         methods: {
