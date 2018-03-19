@@ -182,6 +182,7 @@
                 this.scatter.getIdentity(['account']).then(id => {
                     if(!id) return false;
                     this.scatter.useIdentity(id);
+                    this[Actions.SET_IDENTITY](id);
                 }).catch(e => console.log(e))
             },
             purchaseItem(){

@@ -129,7 +129,7 @@
             lastHighScore:0,
             localEos:null,
             highScores:[],
-            routeNames: RouteNames            
+            routeNames: RouteNames
         }},
         computed: {
             ...mapState([
@@ -149,6 +149,7 @@
                 this.scatter.getIdentity(['account']).then(id => {
                     if(!id) return false;
                     this.scatter.useIdentity(id);
+                    this[Actions.SET_IDENTITY](id);
                     SpaceInvaders.load(this.gameOver)
                 }).catch(e => console.log(e))
             },
