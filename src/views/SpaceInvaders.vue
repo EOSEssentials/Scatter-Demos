@@ -137,8 +137,7 @@
             requestIdentity(){
                 this.scatter.getIdentity(['account']).then(id => {
                     if(!id) return false;
-                    this.scatter.useIdentity(id.hash);
-                    this[Actions.SET_IDENTITY](id);
+                    this.scatter.useIdentity(id);
                     SpaceInvaders.load(this.gameOver)
                 }).catch(e => console.log(e))
             },
@@ -147,20 +146,20 @@
                     this.lastHighScore = score;
 
                     const options = {
-                        scope: ['invaders', this.identity.account.name],
+                        scope: ['invaders', this.scatter.identity.account.name],
                         authorization: [
-                            `${this.identity.account.name}@${this.identity.account.authority}`,
+                            `${this.scatter.identity.account.name}@${this.scatter.identity.account.authority}`,
                             `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
                         ]
                     };
 
-                    let idNameToAccName = this.identity.name.substr(0, 12).toLowerCase();
+                    let idNameToAccName = this.scatter.identity.name.substr(0, 12).toLowerCase();
                     if(!/(^[a-z1-5.]{1,11}[a-z1-5]$)|(^[a-z1-5.]{12}[a-j1-5]$)/g.test(idNameToAccName)){
-                        idNameToAccName = this.identity.account.name;
+                        idNameToAccName = this.scatter.identity.account.name;
                     }
 
                     this.eos.contract('invaders', { keyProvider:process.env.SPACE_INVADERS_OWNER_PKEY }).then(contract => {
-                        contract.score(idNameToAccName, score, this.identity.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
+                        contract.score(idNameToAccName, score, this.scatter.identity.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
                     });
                 }
             },
@@ -190,6 +189,13 @@
             ...mapActions([
                 Actions.SET_IDENTITY
             ])
+        },
+        watch:{
+            identity(a){
+                if(a){
+                    SpaceInvaders.load(this.gameOver);
+                }
+            }
         }
     }
 </script>

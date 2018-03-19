@@ -258,43 +258,46 @@
                 return text;
             },
             createAccount(tries = 0){
-                if(tries > 5) {
-                    this.generatingAccount = false;
-                    alert("Error contacting EOS node");
-                    return false;
-                }
-                ecc.randomKey().then(privateKey => {
-                    const publicKey = ecc.privateToPublic(privateKey);
-                    const accountName = this.randomAccountName();
+                this.scatter.suggestNetwork().then(() => {
+                    if(tries > 5) {
+                        this.generatingAccount = false;
+                        alert("Error contacting EOS node");
+                        return false;
+                    }
+                    ecc.randomKey().then(privateKey => {
+                        const publicKey = ecc.privateToPublic(privateKey);
+                        const accountName = this.randomAccountName();
 
-                    const stakerName = process.env.ACCOUNT_NAME;
-                    const keyProvider = process.env.PRIVATE_KEY;
-                    const httpEndpoint = `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`;
+                        const stakerName = process.env.ACCOUNT_NAME;
+                        const keyProvider = process.env.PRIVATE_KEY;
+                        const httpEndpoint = `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`;
 
-                    let eos = Eos.Localnet({httpEndpoint, keyProvider});
+                        let eos = Eos.Localnet({httpEndpoint, keyProvider});
 
-                    eos.newaccount({
-                        creator: stakerName,
-                        name: accountName,
-                        owner: publicKey,
-                        active: publicKey,
-                        recovery: stakerName,
-                        deposit: `1 EOS`
-                    }).then(account => {
-                        console.log(account);
-                        setTimeout(() => {
-                            eos.transfer(stakerName, accountName, 1000000, '').then(trx => {
-                                this.privateKey = privateKey;
-                                this.publicKey = publicKey;
-                                this.accountName = accountName;
-                                this.generatingAccount = false;
-                            });
-                        }, 500);
-                    }).catch(e => {
-                        // Recursing, probably existing name or invalid character.
-                        this.createAccount(tries+1);
+                        eos.newaccount({
+                            creator: stakerName,
+                            name: accountName,
+                            owner: publicKey,
+                            active: publicKey,
+                            recovery: stakerName,
+                            deposit: `1 EOS`
+                        }).then(account => {
+                            console.log(account);
+                            setTimeout(() => {
+                                eos.transfer(stakerName, accountName, 1000000, '').then(trx => {
+                                    this.privateKey = privateKey;
+                                    this.publicKey = publicKey;
+                                    this.accountName = accountName;
+                                    this.generatingAccount = false;
+                                });
+                            }, 500);
+                        }).catch(e => {
+                            // Recursing, probably existing name or invalid character.
+                            this.createAccount(tries+1);
+                        })
                     })
-                })
+                });
+
             },
             addNetwork(){
                 this.scatter.suggestNetwork();
