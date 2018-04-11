@@ -180,6 +180,7 @@
         methods: {
             requestIdentity(){
                 this.scatter.getIdentity(['account']).then(id => {
+                    console.log('id', id)
                     if(!id) return false;
                     this.scatter.useIdentity(id);
                     this[Actions.SET_IDENTITY](id);
