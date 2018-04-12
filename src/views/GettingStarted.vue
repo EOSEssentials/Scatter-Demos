@@ -149,45 +149,45 @@
 
 
                 <!------------ NETWORK ------------>
-                <h2>Adding our network</h2>
-                <br>
-                <p>
-                    <span>In scatter you need to add networks to work with. There are a two ways you can add networks.</span>
-                    <br><br><br>
-                    <b><u>Using a button on the application to add a network</u></b>
-                </p>
-                <br>
-                <section class="bordered">
-                    <button v-on:click="addNetwork" style="width:150px; margin-top:0;">Add Network</button>
-                    <br>
-                    <span>Nothing will happen if it already exists.</span>
-                </section>
-                <br><br><br>
-                <p>
-                    <b><u>Manually adding a network from your Scatter's settings</u></b>
-                    <br><br>
+                <!--<h2>Adding our network</h2>-->
+                <!--<br>-->
+                <!--<p>-->
+                    <!--<span>In scatter you need to add networks to work with. There are a two ways you can add networks.</span>-->
+                    <!--<br><br><br>-->
+                    <!--<b><u>Using a button on the application to add a network</u></b>-->
+                <!--</p>-->
+                <!--<br>-->
+                <!--<section class="bordered">-->
+                    <!--<button v-on:click="addNetwork" style="width:150px; margin-top:0;">Add Network</button>-->
+                    <!--<br>-->
+                    <!--<span>Nothing will happen if it already exists.</span>-->
+                <!--</section>-->
+                <!--<br><br><br>-->
+                <!--<p>-->
+                    <!--<b><u>Manually adding a network from your Scatter's settings</u></b>-->
+                    <!--<br><br>-->
 
-                    <u>Doing this is simple:</u>
+                    <!--<u>Doing this is simple:</u>-->
 
-                </p>
+                <!--</p>-->
 
-                <ul>
-                    <li>Open up the Scatter Extension</li>
-                    <li>Click the <i class="fa fa-gear"></i> button on the top right</li>
-                    <li>Click the <b>Networks</b> menu option</li>
-                    <li>Click the <i class="fa fa-plus-square-o"></i> button on the top right</li>
-                    <li>Then click the <i class="fa fa-check-square-o"></i> button when you are done</li>
-                </ul>
+                <!--<ul>-->
+                    <!--<li>Open up the Scatter Extension</li>-->
+                    <!--<li>Click the <i class="fa fa-gear"></i> button on the top right</li>-->
+                    <!--<li>Click the <b>Networks</b> menu option</li>-->
+                    <!--<li>Click the <i class="fa fa-plus-square-o"></i> button on the top right</li>-->
+                    <!--<li>Then click the <i class="fa fa-check-square-o"></i> button when you are done</li>-->
+                <!--</ul>-->
 
-                <p>
-                    <u>Our network configuration is:</u>
-                </p>
+                <!--<p>-->
+                    <!--<u>Our network configuration is:</u>-->
+                <!--</p>-->
 
-                <ul>
-                    <li><b>Host:</b> <u>{{networkHost}}</u></li>
-                    <li><b>Port:</b> <u>{{networkPort}}</u></li>
-                </ul>
-                <hr>
+                <!--<ul>-->
+                    <!--<li><b>Host:</b> <u>{{networkHost}}</u></li>-->
+                    <!--<li><b>Port:</b> <u>{{networkPort}}</u></li>-->
+                <!--</ul>-->
+                <!--<hr>-->
 
 
                 <!------------ IDENTITY NAME ------------>
