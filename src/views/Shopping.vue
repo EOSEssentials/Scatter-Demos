@@ -188,7 +188,7 @@
             },
             purchaseItem(){
                 const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
-                this.eos.transfer(this.scatter.identity.account.name, 'inita', 10, '', {requiredFields}).then(transaction => {
+                this.eos.transfer(this.scatter.identity.account.name, 'inita', Math.round(Math.random() * 10 + 1), '', {requiredFields}).then(transaction => {
                     this.bought = true;
                     this.transaction = transaction;
                 }).catch(e => console.log(e))
