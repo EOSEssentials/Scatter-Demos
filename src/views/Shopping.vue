@@ -101,7 +101,7 @@
                                 account, email, shipping address, name and email.
                             </span>
                         </section>
-                        <button v-if="!!identity" v-on:click="purchaseItem">Buy Now!</button>
+                        <button v-if="!!identity" :disabled="buying" v-on:click="purchaseItem">Buy Now!</button>
                         <button v-else disabled>Buy Now!</button>
                     </section>
                 </section>
@@ -127,7 +127,7 @@
                     <u>Shipping Information</u>: <b>{{getShippingInfo(transaction.returnedFields)}}</b><br><br>
                 </p>
 
-                <button v-if="!!identity" v-on:click="purchaseItem">Buy Again!</button>
+                <button v-if="!!identity" v-on:click="purchaseItem" :disabled="buying">Buy Again!</button>
             </section>
 
 
@@ -170,6 +170,7 @@
     export default {
         data(){ return {
             bought:false,
+            buying:false,
             transaction:{}
         }},
         computed: {
@@ -195,6 +196,7 @@
                 }).catch(e => console.log(e))
             },
             purchaseItem(){
+                this.buying = true;
                 const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
                 const accountFrom = this.scatter.identity.account.name;
                 const accountTo = 'invaders';
@@ -203,8 +205,10 @@
                 this.eos.contract('eosio.token', {requiredFields}).then(contract => {
                     contract.transfer(accountFrom, accountTo, amount, '').then(trx => {
                         this.bought = true;
+                        this.buying = false;
                         this.transaction = trx;
                     }).catch(e => {
+                        this.buying = false;
                         console.log(e);
                         if(e.toString().includes("overdrawn balance")){
                             alert("No money, go back to Getting Started and refill")
