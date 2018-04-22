@@ -211,7 +211,7 @@
 
                         const stakerName = process.env.ACCOUNT_NAME;
                         const keyProvider = process.env.PRIVATE_KEY;
-                        const httpEndpoint = `//${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`;
+                        const httpEndpoint = `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`;
 
                         let eos = Eos.Localnet({httpEndpoint, keyProvider});
 
