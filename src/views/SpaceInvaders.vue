@@ -48,20 +48,26 @@
                 <h1>Your Identity name is your Player name.</h1>
                 <br>
                 <p>
-                    Account names are subject to change since you can swap out your account inside of your Identity. We don't want that to
-                    happen in this case because your high score would get lost if you changed accounts!
-                    <br><br>
-                    Because of that Scatter provides the game with the Identity name of your choosing, and an account to sign the transaction of
-                    recording your high score with. Woohoo, now you're free to change accounts and keep your high score.
+                    We're going to be using your Identity name to record high scores on the blockchain.
+                </p>
+                <br>
+                <br>
+                <h2>Setting some permissions</h2>
+                <br>
+                <p>
+                    You probably don't want to have to approve the transaction every time you beat your high score.
+                    You can click the big checkbox on the lower left side of the "Signature Request" popup to enable a whitelist for
+                    this transaction, and then select the checkbox next to the <b>score</b> which will allow the score to change every time
+                    without affecting the whitelist permission.
                 </p>
                 <br>
                 <br>
 
-                <h2><b>IMPORTANT!</b></h2>
+                <h2>Auto Lock</h2>
                 <br>
                 <p>
-                    Go into your Scatter settings and turn up the settings on the Auto Lock feature or you might play for
-                    longer than it's set for and not be able to upload your score.
+                    If you have lowered your Auto Lock settings it might lock while you're playing and you wont be able to
+                    record your score.
                 </p>
             </section>
         </section>
@@ -96,16 +102,13 @@
                 <br>
                 <p>
                     <b>
-                        Right now there is an issue with storing strings inside of a contract on the version of our EOS node.
-                        We're using the first 12 characters of the identity name to store scores instead at the moment. If the first 12 characters
-                        fails the test making it into an account name, the actual account name will be used instead.
-                        This will be fixed the second we're able.
+                        Record your high scores on the blockchain.
                     </b>
                 </p>
                 <hr>
                 <figure v-for="(highScore, rank) in highScores" style="margin-bottom:5px; border-bottom:1px solid rgba(0,0,0,0.05); padding-bottom:5px;">
                     <figure :class="{'first-place':rank === 0}">
-                        <span>#{{rank+1}}</span> <b>{{highScore.score}}</b> - {{highScore.identity}}
+                        <span>#{{rank+1}}</span> <b>{{highScore.score}}</b> - {{highScore.username}}
                     </figure>
                 </figure>
             </section>
@@ -124,6 +127,8 @@
 
     import Eos from 'eosjs';
 
+    let fetchTimeout = null;
+
     export default {
         data(){ return {
             lastHighScore:0,
@@ -136,6 +141,10 @@
                 'scatter',
                 'eos',
                 'identity',
+            ]),
+            ...mapGetters([
+                'account',
+                'httpEndpoint'
             ])
         },
         mounted(){
@@ -148,7 +157,6 @@
             requestIdentity(){
                 this.scatter.getIdentity(['account']).then(id => {
                     if(!id) return false;
-                    this.scatter.useIdentity(id);
                     this[Actions.SET_IDENTITY](id);
                     SpaceInvaders.load(this.gameOver)
                 }).catch(e => console.log(e))
@@ -158,28 +166,26 @@
                     this.lastHighScore = score;
 
                     const options = {
-                        scope: ['invaders', this.scatter.identity.account.name],
                         authorization: [
-                            `${this.scatter.identity.account.name}@${this.scatter.identity.account.authority}`,
+                            `${this.scatter.identity.account.name}@${this.account.authority}`,
                             `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
                         ]
                     };
 
-                    let idNameToAccName = this.scatter.identity.name.substr(0, 12).toLowerCase();
-                    if(!/(^[a-z1-5.]{1,11}[a-z1-5]$)|(^[a-z1-5.]{12}[a-j1-5]$)/g.test(idNameToAccName)){
-                        idNameToAccName = this.scatter.identity.account.name;
-                    }
+                    const signProvider = (buf, sign) => {
+                        return sign(buf, process.env.SPACE_INVADERS_OWNER_PKEY)
+                    };
 
-                    this.eos.contract('invaders', { keyProvider:process.env.SPACE_INVADERS_OWNER_PKEY }).then(contract => {
-                        contract.score(idNameToAccName, score, this.scatter.identity.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
+                    const username = this.scatter.identity.name;
+                    this.eos.contract('invaders', {signProvider}).then(contract => {
+                        contract.scored(username, score, this.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
                     });
                 }
             },
             getHighScores(){
+                clearTimeout(fetchTimeout);
 
-                const host = process.env.NETWORK_HOST;
-                const port = process.env.NETWORK_PORT;
-                const eos = Eos.Localnet({httpEndpoint:`http://${host}:${port}`});
+                const eos = Eos.Localnet({httpEndpoint:this.httpEndpoint});
                 eos.getTableRows({
                     "json": true,
                     "scope": 'invaders',
@@ -189,13 +195,14 @@
                 }).then(result => {
                     this.highScores = result.rows.sort((a,b) => b.score - a.score);
                     if(this.identity){
-                        const playerBest = this.highScores.find(x => x.identity === this.identity.name);
+                        const username = this.scatter.identity.name;
+                        const playerBest = this.highScores.find(x => x.username === username);
                         if(playerBest) this.lastHighScore = playerBest.score;
                     }
 
-                    setTimeout(() => {
+                    fetchTimeout = setTimeout(() => {
                         this.getHighScores();
-                    }, 2000);
+                    }, 5000);
                 })
             },
             ...mapActions([

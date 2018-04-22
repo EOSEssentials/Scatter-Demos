@@ -26,7 +26,11 @@ class App {
 
                 window.scatter.requireVersion(2.1);
                 store.dispatch(Actions.SET_SCATTER, window.scatter);
+                console.log(window.scatter.identity);
                 store.dispatch(Actions.SET_IDENTITY, window.scatter.identity);
+                window.scatter.authenticate()
+                    .then(res => console.log('auth res', res))
+                    .catch(err => console.log('auth err', err))
                 window.scatter = null;
 
                 const host = process.env.NETWORK_HOST;

@@ -13,7 +13,8 @@ const state = {
 };
 
 const getters = {
-    // identities:state => state.scatter.keychain.identities,
+    account:state => state.scatter.identity.account,
+    httpEndpoint:state => `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`
 };
 
 export const store = new Vuex.Store({

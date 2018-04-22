@@ -44,11 +44,12 @@
 </script>
 
 <style lang="scss">
+    @import '../styles.scss';
     .view-base {
         position: relative;
 
         .mobile {
-            background:#e43535;
+            background:$darkred;
             padding:20px;
             color:#fff;
         }
@@ -61,7 +62,7 @@
             z-index:-1;
         }
 
-        .back-left { left:0; background:#e43535; }
+        .back-left { left:0; background:$darkred; }
         .back-right { right:0; background:#f7f7f7; }
 
         main {
@@ -92,7 +93,7 @@
                 }
 
                 p {
-                    font-size:11px;
+                    font-size:14px;
                     font-weight: 400;
                     color:#6b6b6b;
                 }
@@ -100,14 +101,14 @@
                 .dev-link {
                     cursor: pointer;
                     margin-top:20px;
-                    color:#f23c3c;
+                    color:$midred;
                     text-decoration: underline;
                     font-weight:bold;
                     display:inline-block;
                 }
 
                 span {
-                    font-size:9px;
+                    font-size:11px;
                     font-weight: 400;
                     color:#6b6b6b;
                 }
@@ -171,7 +172,7 @@
                         width:100%;
                         height:40px;
                         line-height:40px;
-                        background:#f23c3c;
+                        background:$midred;
                         color:#fff;
                         font-size:16px;
                         transition:background 0.2s ease;
@@ -179,11 +180,11 @@
                         margin-top:20px;
 
                         &:hover {
-                            background: #f64444;
+                            background: $lightred;
                         }
 
                         &:active {
-                            background: #e43535;
+                            background: $darkred;
                         }
 
                         &:disabled {

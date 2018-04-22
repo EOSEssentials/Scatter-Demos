@@ -38,13 +38,14 @@
 </script>
 
 <style lang="scss">
+    @import '../styles.scss';
     .sidebar {
         width:300px;
         position:absolute;
         top:0;
         bottom:0;
         left:0;
-        background:#f23c3c;
+        background:$midred;
         float:left;
 
         .logo-panel {
@@ -73,11 +74,11 @@
             transition:background 0.2s ease;
 
             &:hover, &.router-link-exact-active {
-                background:#f64444;
+                background:$lightred;
             }
 
             &:not(.router-link-exact-active):active {
-                background:#e43535;
+                background:$darkred;
             }
         }
     }

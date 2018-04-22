@@ -46,6 +46,8 @@
                     Imagine what would happen if you moved houses and had to update your shipping information on every shopping
                     website you've ever used.
                 </p>
+
+                <button v-on:click="forgetIdentity">Forget Identity</button>
             </section>
 
 
@@ -175,23 +177,39 @@
                 'scatter',
                 'eos',
                 'identity',
+            ]),
+            ...mapGetters([
+                'account'
             ])
         },
         methods: {
             requestIdentity(){
                 this.scatter.getIdentity(['account']).then(id => {
-                    console.log('id', id)
                     if(!id) return false;
-                    this.scatter.useIdentity(id);
                     this[Actions.SET_IDENTITY](id);
+                }).catch(e => console.log(e))
+            },
+            forgetIdentity(){
+                this.scatter.forgetIdentity().then(id => {
+                    this[Actions.SET_IDENTITY](null);
                 }).catch(e => console.log(e))
             },
             purchaseItem(){
                 const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
-                this.eos.transfer(this.scatter.identity.account.name, 'inita', Math.round(Math.random() * 10 + 1), '', {requiredFields}).then(transaction => {
-                    this.bought = true;
-                    this.transaction = transaction;
-                }).catch(e => console.log(e))
+                const accountFrom = this.scatter.identity.account.name;
+                const accountTo = 'invaders';
+                const amount = `${Math.round(Math.random() * 10 + 1)} EOS`;
+
+                this.eos.contract('eosio.token', {requiredFields}).then(contract => {
+                    contract.transfer(accountFrom, accountTo, amount, '').then(trx => {
+                        this.bought = true;
+                        this.transaction = trx;
+                    }).catch(e => {
+                        if(e.includes("overdrawn balance")){
+                            alert("No money, go back to Getting Started and refill")
+                        }
+                    })
+                })
             },
             getPersonalInfo(fields){
                 return `${fields.firstname} ${fields.lastname}`
