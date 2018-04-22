@@ -205,7 +205,8 @@
                         this.bought = true;
                         this.transaction = trx;
                     }).catch(e => {
-                        if(e.includes("overdrawn balance")){
+                        console.log(e);
+                        if(e.toString().includes("overdrawn balance")){
                             alert("No money, go back to Getting Started and refill")
                         }
                     })
