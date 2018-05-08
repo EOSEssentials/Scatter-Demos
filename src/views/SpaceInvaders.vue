@@ -144,7 +144,8 @@
             ]),
             ...mapGetters([
                 'account',
-                'httpEndpoint'
+                'httpEndpoint',
+                'eosNetwork'
             ])
         },
         mounted(){
@@ -155,7 +156,7 @@
         },
         methods: {
             requestIdentity(){
-                this.scatter.getIdentity(['account']).then(id => {
+                this.scatter.getIdentity({ accounts:[this.eosNetwork] }).then(id => {
                     if(!id) return false;
                     this[Actions.SET_IDENTITY](id);
                     SpaceInvaders.load(this.gameOver)
@@ -164,10 +165,11 @@
             gameOver(score){
                 if(score > this.lastHighScore) {
                     this.lastHighScore = score;
+                    const account = this.scatter.identity.accounts.find(account => account.blockchain === 'eos');
 
                     const options = {
                         authorization: [
-                            `${this.scatter.identity.account.name}@${this.account.authority}`,
+                            `${account.name}@${account.authority}`,
                             `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
                         ]
                     };
@@ -178,7 +180,7 @@
 
                     const username = this.scatter.identity.name;
                     this.eos.contract('invaders', {signProvider}).then(contract => {
-                        contract.scored(username, score, this.account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
+                        contract.scored(username, score, account.name, process.env.SPACE_INVADERS_OWNER_NAME, options)
                     });
                 }
             },

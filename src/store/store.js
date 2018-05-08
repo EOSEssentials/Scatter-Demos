@@ -14,7 +14,8 @@ const state = {
 
 const getters = {
     account:state => state.scatter.identity.account,
-    httpEndpoint:state => `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`
+    httpEndpoint:state => `http://${process.env.NETWORK_HOST}:${process.env.NETWORK_PORT}`,
+    eosNetwork:state => ({blockchain:'eos', host:process.env.NETWORK_HOST, port:process.env.NETWORK_PORT})
 };
 
 export const store = new Vuex.Store({

@@ -184,6 +184,9 @@
             ...mapState([
                 'scatter',
                 'eos'
+            ]),
+            ...mapGetters([
+                'eosNetwork',
             ])
         },
         methods: {
@@ -199,7 +202,7 @@
                 return text;
             },
             createAccount(tries = 0){
-                this.scatter.suggestNetwork().then(() => {
+                this.scatter.suggestNetwork(this.eosNetwork).then(() => {
                     if(tries > 5) {
                         this.generatingAccount = false;
                         alert("Error contacting EOS node");
@@ -247,9 +250,6 @@
                     })
                 });
 
-            },
-            addNetwork(){
-                this.scatter.suggestNetwork();
             },
             ...mapActions([
 

@@ -23,8 +23,8 @@ public:
      ****************************************************/
 
     void scored( string username, uint64_t score, account_name identity_account, account_name application ){
-        eosio_assert(state_config::exists(), "Contract does not yet have an application key");
-        eosio_assert(state_config::get().application == application, "Application key does not match");
+        eosio_assert(state_config(N(invaders),_self).exists(), "Contract does not yet have an application key");
+        eosio_assert(state_config(N(invaders),_self).get().application == application, "Application key does not match");
         require_auth(identity_account);
         require_auth(application);
 
@@ -49,8 +49,8 @@ public:
     void own( account_name application ){
         require_auth(_self);
         require_auth(application);
-        eosio_assert(!state_config::exists(_self), "Application owner already exists");
-        state_config::set(config{application}, _self);
+        eosio_assert(!state_config(N(invaders),_self).exists(), "Application owner already exists");
+        state_config(N(invaders),_self).set(config{application}, _self);
     }
 
     void del( string username ){
@@ -97,7 +97,7 @@ private:
      ****************************************************/
 
     typedef multi_index<N(scores), scores> TABLE_Scores;
-    typedef singleton<N(invaders), N(config), N(invaders), config>  state_config;
+    typedef singleton<N(configs), config>  state_config;
 };
 
 EOSIO_ABI( invaders, (scored)(own)(del) )

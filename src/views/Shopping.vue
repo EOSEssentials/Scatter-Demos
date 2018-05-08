@@ -180,14 +180,15 @@
                 'identity',
             ]),
             ...mapGetters([
-                'account'
+                'account',
+                'eosNetwork'
             ])
         },
         methods: {
             requestIdentity(){
-                this.scatter.getIdentity(['account']).then(id => {
-                    if(!id) return false;
+                this.scatter.getIdentity({ accounts:[this.eosNetwork] }).then(id => {
                     this[Actions.SET_IDENTITY](id);
+                    console.log('scatid', this.scatter.identity);
                 }).catch(e => console.log(e))
             },
             forgetIdentity(){
@@ -197,13 +198,23 @@
             },
             purchaseItem(){
                 this.buying = true;
-                const requiredFields = ['account', 'firstname', 'lastname', 'country', 'address', 'city'];
-                const accountFrom = this.scatter.identity.account.name;
-                const accountTo = 'invaders';
-                const amount = `${Math.round(Math.random() * 10 + 1)} EOS`;
+
+                const requiredFields = {
+                    accounts:[this.eosNetwork],
+                    personal:['firstname', 'lastname'],
+                    location:['country', 'address', 'city']
+                }
+
+                console.log(this.scatter.identity);
+
+                const accountFrom = this.scatter.identity.accounts.find(account => account.blockchain === 'eos');
+                const accountTo = 'eosio';
+                const amount = `${Math.round(Math.random() * 10 + 1)}.0000 EOS`;
 
                 this.eos.contract('eosio.token', {requiredFields}).then(contract => {
-                    contract.transfer(accountFrom, accountTo, amount, '').then(trx => {
+                    console.log('contract', contract.transfer);
+                    contract.transfer(accountFrom.name, accountTo, amount, '').then(trx => {
+                        console.log('trx', trx);
                         this.bought = true;
                         this.buying = false;
                         this.transaction = trx;
@@ -217,10 +228,10 @@
                 })
             },
             getPersonalInfo(fields){
-                return `${fields.firstname} ${fields.lastname}`
+                return `${fields.personal.firstname} ${fields.personal.lastname}`
             },
             getShippingInfo(fields){
-                return `${fields.address}, ${fields.city}, ${fields.country.name}`
+                return `${fields.location.address}, ${fields.location.city}, ${fields.location.country.name}`
             },
             ...mapActions([
                 Actions.SET_IDENTITY
