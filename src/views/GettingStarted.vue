@@ -195,9 +195,9 @@
                 setTimeout(() => this.createAccount(), 200)
             },
             randomAccountName(){
-                const size = Math.random() * 8 + 2;
+                const size = 12;
                 let text = "";
-                const possible = "abcdefghij12345.";
+                const possible = "abcdefghij12345";
                 for(let i=0; i<size; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
                 return text;
             },
@@ -226,7 +226,6 @@
                             recovery: stakerName,
                             deposit: `1 EOS`
                         }).then(account => {
-                            console.log(account);
                             setTimeout(() => {
                                 eos.contract('eosio.token').then(contract => {
                                     contract.transfer(stakerName, accountName, '10000.0000 EOS', '').then(() => {

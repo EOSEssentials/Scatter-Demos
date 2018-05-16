@@ -13,15 +13,6 @@ import ViewBase from './views/Base.vue'
 class App {
 
     constructor(){
-        // const digest = '3aad9fc133fc1f53e8f233a235f040e7e535d733f28970eebac3168a78507016';
-        const digest = '3aad9fc133fc1f53e8f233a235f040e7e535d733f28970eebac3168a78507016';
-
-        // const sig = ecc.Signature.signHash(digest, '5KjbZQLH3EAfgXF3jejYM2WZjzJCUQH7NEkT1mVcBy2xoFdSWro');
-        const sig = ecc.Signature.signHash(digest, '5KY217mNt7Eg4tqewNpcPqPkvncYN7SgBdzZz8cdcW5D7RBasGb');
-        console.log('sig 1', sig);
-        console.log('sig 2', sig.toString());
-        const sig2 = ecc.sign(digest, '5KjbZQLH3EAfgXF3jejYM2WZjzJCUQH7NEkT1mVcBy2xoFdSWro');
-        console.log('sig', sig2.toString());
         const routes = Routing.routes();
         const components = [
             {tag:'view-base', vue:ViewBase},

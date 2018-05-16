@@ -188,7 +188,6 @@
             requestIdentity(){
                 this.scatter.getIdentity({ accounts:[this.eosNetwork] }).then(id => {
                     this[Actions.SET_IDENTITY](id);
-                    console.log('scatid', this.scatter.identity);
                 }).catch(e => console.log(e))
             },
             forgetIdentity(){
@@ -205,16 +204,12 @@
                     location:['country', 'address', 'city']
                 }
 
-                console.log(this.scatter.identity);
-
                 const accountFrom = this.scatter.identity.accounts.find(account => account.blockchain === 'eos');
                 const accountTo = 'eosio';
                 const amount = `${Math.round(Math.random() * 10 + 1)}.0000 EOS`;
 
                 this.eos.contract('eosio.token', {requiredFields}).then(contract => {
-                    console.log('contract', contract.transfer);
                     contract.transfer(accountFrom.name, accountTo, amount, '').then(trx => {
-                        console.log('trx', trx);
                         this.bought = true;
                         this.buying = false;
                         this.transaction = trx;
