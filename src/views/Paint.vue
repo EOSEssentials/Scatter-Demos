@@ -133,7 +133,7 @@
                     {authorization:[
                         `${account.name}@${account.authority}`,
                         `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
-                    ]}).catch(e => {
+                    ]}).catch(error => {
                     this.error = JSON.parse(error).error.details[0].message.replace('condition: assertion failed: ', '');
                     return null;
                 });
