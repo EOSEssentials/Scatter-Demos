@@ -123,6 +123,7 @@
                 this.popped = null;
             },
             async fill(pixel){
+                if(!this.scatter || !this.identity) return false;
                 this.filling = true;
                 this.error = null;
                 const account = this.identity.accounts.find(account => account.blockchain === 'eos');
