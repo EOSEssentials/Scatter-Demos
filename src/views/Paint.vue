@@ -93,6 +93,7 @@
                 return {x, y, color:'#FFFFFF', name:'Unclaimed'};
             });
 
+            getPixels(this.paint, this.pixels);
             setInterval(() => getPixels(this.paint, this.pixels), 10000);
 
         },
