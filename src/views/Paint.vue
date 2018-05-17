@@ -82,6 +82,7 @@
             error:null,
             popped:null,
             filling:false,
+            routeNames:RouteNames,
         }},
         mounted(){
             this.paint = Eos.Localnet({httpEndpoint:this.httpEndpoint});
