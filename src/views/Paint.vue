@@ -40,6 +40,7 @@
         </section>
 
         <section class="board" @mouseout="unpop">
+            <figure class="cover" v-if="filling"></figure>
             <figure class="pixel" @mouseover="hovered(pixel)" @click="fill(pixel)" v-for="pixel in pixels" :style="{'background-color':pixel.color}"></figure>
         </section>
 
@@ -80,6 +81,7 @@
             paint:null,
             error:null,
             popped:null,
+            filling:false,
         }},
         mounted(){
             this.paint = Eos.Localnet({httpEndpoint:this.httpEndpoint});
@@ -121,6 +123,7 @@
                 this.popped = null;
             },
             async fill(pixel){
+                this.filling = true;
                 this.error = null;
                 const account = this.identity.accounts.find(account => account.blockchain === 'eos');
 
@@ -135,9 +138,10 @@
                         `${process.env.SPACE_INVADERS_OWNER_NAME}@active`
                     ]}).catch(error => {
                     this.error = JSON.parse(error).error.details[0].message.replace('condition: assertion failed: ', '');
+                    this.filling = false;
                     return null;
                 });
-
+                this.filling = false;
                 if(filled) getPixels(this.paint, this.pixels);
             },
 //            async getPixel(x,y){
@@ -228,7 +232,15 @@
             padding-bottom:50%;
             overflow: hidden;
             border:1px solid #666;
+            position: relative;
             /*padding:2px;*/
+
+            .cover {
+                position: absolute;
+                top:0; bottom:0; left:0; right:0;
+                z-index:2;
+                background:rgba(0,0,0,0.4);
+            }
 
             .pixel {
                 cursor: pointer;
