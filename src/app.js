@@ -7,6 +7,7 @@ import * as Eos from 'eosjs'
 // import ecc from 'eosjs-ecc';
 const {ecc} = Eos.modules
 
+import { Slider, Material, Chrome } from 'vue-color'
 import SidebarComp from './components/SidebarComp.vue'
 import ViewBase from './views/Base.vue'
 
@@ -17,6 +18,9 @@ class App {
         const components = [
             {tag:'view-base', vue:ViewBase},
             {tag:'sidebar', vue:SidebarComp},
+            {tag:'slider-picker', vue:Slider},
+            {tag:'material-picker', vue:Material},
+            {tag:'chrome-picker', vue:Chrome},
         ];
 
         const middleware = (to, next, store) => {
