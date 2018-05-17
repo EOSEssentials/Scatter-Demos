@@ -230,11 +230,10 @@
 
         .board {
             width:100%;
-            padding-bottom:50%;
             overflow: hidden;
             border:1px solid #666;
             position: relative;
-            /*padding:2px;*/
+            padding:2px;
 
             .cover {
                 position: absolute;
